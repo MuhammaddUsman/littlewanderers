@@ -33,6 +33,32 @@ export const Route = createFileRoute('/destinations/$slug')({
             },
             { name: 'description', content: loaderData.post.summary },
           ],
+          scripts: [
+            {
+              type: 'application/ld+json',
+              children: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: loaderData.post.title,
+                description: loaderData.post.summary,
+                image: loaderData.post.image,
+                datePublished: loaderData.post.date,
+                dateModified: loaderData.post.date,
+                author: {
+                  '@type': 'Organization',
+                  name: 'Little Wanderers Editorial Team',
+                },
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'Little Wanderers',
+                },
+                about: {
+                  '@type': 'TouristDestination',
+                  name: `${loaderData.post.city}, ${loaderData.post.country}`,
+                },
+              }),
+            },
+          ],
         }
       : {},
   component: RouteComponent,
@@ -46,7 +72,7 @@ function RouteComponent() {
       <div className="relative h-[45vh] min-h-[320px] w-full overflow-hidden">
         <img
           src={post.image}
-          alt={post.title}
+          alt={`Family-friendly view of ${post.city}, ${post.country}`}
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -63,7 +89,17 @@ function RouteComponent() {
 
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 lg:grid-cols-[1fr_280px]">
         <div className="min-w-0">
-          <p className="text-lg leading-relaxed text-stone-700">{post.summary}</p>
+          <p className="text-sm text-stone-500">
+            Written by the Little Wanderers Editorial Team ·{' '}
+            <time dateTime={post.date}>
+              Last updated{' '}
+              {new Date(post.date).toLocaleDateString('en-US', {
+                month: 'long',
+                year: 'numeric',
+              })}
+            </time>
+          </p>
+          <p className="mt-3 text-lg leading-relaxed text-stone-700">{post.summary}</p>
 
           <div className="mt-6 flex flex-wrap gap-2">
             {post.tripTypes.map((type) => (
