@@ -25,6 +25,10 @@ export function DestinationCard({
             alt={post.title}
             loading="lazy"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              e.currentTarget.onerror = null
+              e.currentTarget.src = '/placeholder.png'
+            }}
           />
           <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-stone-700 backdrop-blur">
             {post.region}
