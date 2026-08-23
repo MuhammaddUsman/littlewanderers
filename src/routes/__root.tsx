@@ -58,11 +58,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-213943259770957"
-          crossOrigin="anonymous"
-        />
         <HeadContent />
       </head>
       <body className="min-h-screen bg-stone-50 font-sans text-stone-900 antialiased">
