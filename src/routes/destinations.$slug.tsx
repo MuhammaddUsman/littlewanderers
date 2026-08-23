@@ -14,6 +14,7 @@ import { allPosts } from 'content-collections'
 
 import { AdSlot } from '@/components/AdSlot'
 import { DestinationCard } from '@/components/DestinationCard'
+import { SITE_URL } from '@/lib/site'
 
 export const Route = createFileRoute('/destinations/$slug')({
   loader: async ({ params }) => {
@@ -32,6 +33,20 @@ export const Route = createFileRoute('/destinations/$slug')({
               title: `${loaderData.post.title} — Family Travel Guide | Little Wanderers`,
             },
             { name: 'description', content: loaderData.post.summary },
+            // Open Graph — overrides the site-wide defaults with this destination's own image
+            { property: 'og:type', content: 'article' },
+            { property: 'og:title', content: loaderData.post.title },
+            { property: 'og:description', content: loaderData.post.summary },
+            { property: 'og:image', content: loaderData.post.image },
+            {
+              property: 'og:url',
+              content: `${SITE_URL}/destinations/${loaderData.post.slug}`,
+            },
+            // Twitter / X card
+            { name: 'twitter:card', content: 'summary_large_image' },
+            { name: 'twitter:title', content: loaderData.post.title },
+            { name: 'twitter:description', content: loaderData.post.summary },
+            { name: 'twitter:image', content: loaderData.post.image },
           ],
           scripts: [
             {
@@ -74,6 +89,10 @@ function RouteComponent() {
           src={post.image}
           alt={`Family-friendly view of ${post.city}, ${post.country}`}
           className="h-full w-full object-cover"
+          onError={(e) => {
+            e.currentTarget.onerror = null
+            e.currentTarget.src = '/placeholder.png'
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-6xl px-4 pb-8 text-white">
