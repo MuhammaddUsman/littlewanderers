@@ -7,7 +7,7 @@ region: "Middle East"
 tripTypes:
   - "City Breaks"
   - "Beach Holidays"
-image: "https://images.unsplash.com/photo-1544015759-237f689fee0e?q=80&w=1600&auto=format&fit=crop"
+image: "https://images.unsplash.com/photo-1545501168-d5d32baeb62e?q=80&w=1600&auto=format&fit=crop"
 date: "2026-02-08"
 bestTimeToVisit: "April to June or September to October — warm without the intense humidity of peak summer."
 dailyBudget:
