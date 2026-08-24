@@ -5,3 +5,25 @@
   command = "npm run dev"
   targetPort = 3000
   port = 8888
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Forces HTTPS on every future visit for a year, including subdomains.
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Stops browsers from guessing/"sniffing" a file's type — prevents a
+    # non-executable upload from being treated as a script.
+    X-Content-Type-Options = "nosniff"
+    # Blocks the site from being embedded in an iframe elsewhere — the
+    # classic defense against clickjacking.
+    X-Frame-Options = "DENY"
+    # Don't leak the full referring URL (with query params) to third parties.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Disable browser features this site never uses.
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Restricts what this site is allowed to load/run. Images are allowed
+    # from Unsplash (destination photos) in addition to same-origin; scripts,
+    # styles, and fonts are same-origin only (no inline styles are used
+    # anywhere in this codebase, so this stays strict without breaking
+    # anything). connect-src covers the same-origin /api/assistant calls.
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https://images.unsplash.com; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://app.netlify.com; object-src 'none'"
