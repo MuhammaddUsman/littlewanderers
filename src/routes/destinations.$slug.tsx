@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, Link } from '@tanstack/react-router'
 import { marked } from 'marked'
+import DOMPurify from 'isomorphic-dompurify'
 import {
   CalendarDays,
   Wallet,
@@ -165,7 +166,7 @@ function RouteComponent() {
 
           <div
             className="prose prose-stone mt-10 max-w-none prose-headings:font-serif prose-h2:text-2xl"
-            dangerouslySetInnerHTML={{ __html: marked(post.content) }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(post.content) as string) }}
           />
 
           <section className="mt-10 grid gap-8 sm:grid-cols-2">
