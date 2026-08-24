@@ -31,3 +31,21 @@ strollerFriendly: Challenging
 napTimeTips: Petra and Wadi Rum are not stroller terrain — a hiking carrier is essential for kids under about 4. Build in a rest day at a Dead Sea resort between adventure days; these hotels have pools, air conditioning, and calm settings well suited to naps.
 pickyEaterFood:
 - Hummus and pita bread — mild, familiar, and available at every meal
+- Chicken shawarma without spice, often available on request
+- Fresh fruit and yogurt at hotel breakfasts
+- French fries and grilled meats are common at tourist-area restaurants near Petra and Amman
+---
+
+Jordan rewards families willing to trade a bit of comfort for genuinely awe-inspiring sights. Few places let a eight-year-old say they walked through a canyon into an ancient lost city before lunch and floated in a sea after dinner.
+
+## Structuring the Trip
+
+A common route is two nights in Amman, two nights near Petra, one night glamping in Wadi Rum, and a final night or two at a Dead Sea resort to decompress before flying home. Private drivers are the easiest way to link these stops with young kids in tow.
+
+## Managing Petra with Young Kids
+
+Petra is enormous — visiting everything requires serious walking. Families often do a shorter loop to the Treasury and back for younger children, while older kids and teens can continue to the Monastery, a much longer uphill climb.
+
+## Practical Notes
+
+Jordan is more budget-friendly than Gulf destinations like Dubai, and food, guides, and private transport all cost noticeably less, making it approachable for longer family trips.
