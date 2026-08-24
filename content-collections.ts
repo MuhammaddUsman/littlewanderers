@@ -37,7 +37,6 @@ const posts = defineCollection({
     strollerFriendly: z.enum(['Excellent', 'Good', 'Challenging']),
     napTimeTips: z.string(),
     recommendedAges: z.string(),
-    content: z.string(),
   }),
   transform: async (doc) => {
     return {
