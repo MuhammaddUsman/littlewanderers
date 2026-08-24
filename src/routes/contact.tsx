@@ -35,20 +35,46 @@ function Contact() {
     e.preventDefault()
     setStatus('sending')
     try {
-      const res = await fetch('/contact-form.html', {
+      // Netlify's form bot intercepts POSTs to the site root (or the page the
+      // form lives on) before any app routing runs — posting to a path that
+      // isn't a real page/route (like /contact-form.html) can get swallowed
+      // by the app's own server handler instead of reaching Netlify's forms
+      // processor, which is what was causing submissions to silently fail.
+      const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...fields }),
+        body: encode({ 'form-name': 'contact', 'bot-field': '', ...fields }),
       })
-      if (!res.ok) throw new Error('Submission failed')
+      if (!res.ok) {
+        console.error('Contact form submission failed:', res.status, await res.text())
+        throw new Error('Submission failed')
+      }
       setStatus('sent')
-    } catch {
+    } catch (err) {
+      console.error('Contact form error:', err)
       setStatus('error')
     }
   }
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-14">
+      {/*
+        Hidden, server-rendered form purely so Netlify's build-time crawler
+        can detect and register the "contact" form. It's never shown or
+        submitted itself — the real, interactive form below (with React
+        state, validation, and the fetch() submission) is what users
+        actually fill out. Netlify requires a plain static <form
+        data-netlify="true"> to exist somewhere in a page's rendered HTML
+        to register the form at all; a form only ever rendered/submitted
+        client-side via JS is invisible to that scan.
+      */}
+      <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+        <input type="text" name="name" />
+        <input type="email" name="email" />
+        <textarea name="message" />
+        <input name="bot-field" />
+      </form>
+
       <h1 className="font-serif text-4xl font-bold text-stone-900">Contact Us</h1>
       <p className="mt-4 text-lg text-stone-600">
         Questions, destination suggestions, or feedback on a guide? We'd love to
