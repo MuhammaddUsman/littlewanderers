@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import Anthropic from '@anthropic-ai/sdk'
 
 import { getDestinationSummaries } from '@/lib/destinations'
+import { getClientIp, isRateLimited } from '@/lib/rateLimit'
 
 const SYSTEM_PROMPT = `You are the "Trip Finder," a friendly AI travel assistant for Little Wanderers, a family travel blog for parents planning trips with kids.
 
@@ -20,17 +21,50 @@ ${JSON.stringify(getDestinationSummaries())}`
 
 const MODEL = 'claude-sonnet-5'
 
+// Cost/abuse guardrails — these bound the worst case for both a single
+// request and how often one client can hit the endpoint. Tune the numbers
+// if real usage patterns turn out to need more headroom.
+const MAX_MESSAGES = 20
+const MAX_MESSAGE_LENGTH = 2000
+const MAX_TOTAL_LENGTH = 8000
+const RATE_LIMIT = { limit: 15, windowMs: 5 * 60 * 1000 } // 15 requests / 5 min per IP
+
 export const Route = createFileRoute('/api/assistant')({
   server: {
     handlers: {
       POST: async ({ request }) => {
         try {
+          const clientIp = getClientIp(request)
+          if (isRateLimited(`assistant:${clientIp}`, RATE_LIMIT)) {
+            return Response.json(
+              { error: "You've sent a lot of messages — please wait a few minutes and try again." },
+              { status: 429 },
+            )
+          }
+
           const body = await request.json()
           const messages: Array<{ role: 'user' | 'assistant'; content: string }> =
             Array.isArray(body?.messages) ? body.messages : []
 
           if (messages.length === 0) {
             return Response.json({ error: 'No messages provided' }, { status: 400 })
+          }
+          if (messages.length > MAX_MESSAGES) {
+            return Response.json({ error: 'Conversation is too long.' }, { status: 400 })
+          }
+
+          let totalLength = 0
+          for (const m of messages) {
+            if (typeof m.content !== 'string' || (m.role !== 'user' && m.role !== 'assistant')) {
+              return Response.json({ error: 'Invalid message format.' }, { status: 400 })
+            }
+            if (m.content.length > MAX_MESSAGE_LENGTH) {
+              return Response.json({ error: 'A message is too long.' }, { status: 400 })
+            }
+            totalLength += m.content.length
+          }
+          if (totalLength > MAX_TOTAL_LENGTH) {
+            return Response.json({ error: 'Conversation is too long.' }, { status: 400 })
           }
 
           const anthropic = new Anthropic()
