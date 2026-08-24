@@ -145,6 +145,7 @@ export function FamilyAssistant() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="e.g. Two kids, ages 4 and 9, $180/day budget..."
+          maxLength={2000}
           className="flex-1 rounded-full border border-stone-300 px-4 py-2 text-sm outline-none focus:border-amber-500"
         />
         <button
