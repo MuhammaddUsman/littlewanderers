@@ -50,6 +50,19 @@ export const Route = createRootRoute({
         href: 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap',
       },
     ],
+    scripts: [
+      // Google Analytics (GA4). The gtag.js loader is Google's own external
+      // script; the actual init/config call lives in the same-origin
+      // /analytics.js file (see that file for why) so it works under this
+      // site's strict Content-Security-Policy.
+      {
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-9D4QKGXCJ7',
+        async: true,
+      },
+      {
+        src: '/analytics.js',
+      },
+    ],
   }),
   shellComponent: RootDocument,
 })
