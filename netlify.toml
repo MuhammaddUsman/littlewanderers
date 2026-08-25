@@ -21,9 +21,10 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     # Disable browser features this site never uses.
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    # Restricts what this site is allowed to load/run. Images are allowed
-    # from Unsplash (destination photos) in addition to same-origin; scripts,
-    # styles, and fonts are same-origin only (no inline styles are used
-    # anywhere in this codebase, so this stays strict without breaking
-    # anything). connect-src covers the same-origin /api/assistant calls.
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https://images.unsplash.com; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://app.netlify.com; object-src 'none'"
+    # Restricts what this site is allowed to load/run. Images: same-origin,
+    # Unsplash (destination photos), and Google Analytics' beacon endpoint.
+    # Scripts: same-origin plus Google Tag Manager (serves the GA4 script).
+    # Styles/fonts: same-origin plus Google Fonts, which this site's <head>
+    # links to directly. connect-src covers same-origin /api/assistant calls
+    # plus GA4's data-collection requests.
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https://images.unsplash.com https://www.google-analytics.com; script-src 'self' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://app.netlify.com; object-src 'none'"
