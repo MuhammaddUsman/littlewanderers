@@ -1,4 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+
+import { AuthorAvatar } from '@/components/AuthorAvatar'
+import { AUTHOR_NAME, AUTHOR_TITLE, AUTHOR_BIO_LONG } from '@/lib/author'
 
 export const Route = createFileRoute('/about')({
   component: About,
@@ -39,10 +42,29 @@ function About() {
         all-inclusive resort stay. If you're not sure where to start, our AI Trip
         Finder can suggest destinations based on your kids' ages and your budget.
       </p>
-      <p className="mt-4 leading-relaxed text-stone-700">
-        We're a small team of parents who travel constantly with our own kids and
-        write down what actually worked — and what didn't — so your planning
-        starts from real experience instead of a generic listicle.
+      <section className="mt-12 rounded-xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
+        <h2 className="font-serif text-2xl font-bold text-stone-900">
+          Who Writes These Guides
+        </h2>
+        <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-start">
+          <AuthorAvatar size={72} className="shrink-0" />
+          <div>
+            <p className="font-serif text-lg font-bold text-stone-900">
+              {AUTHOR_NAME}
+            </p>
+            <p className="text-sm font-medium text-amber-700">{AUTHOR_TITLE}</p>
+            {AUTHOR_BIO_LONG.split('\n\n').map((paragraph) => (
+              <p key={paragraph} className="mt-3 leading-relaxed text-stone-700">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <p className="mt-8 text-sm text-stone-500">
+        Have a destination you think we should cover, or a correction on a
+        guide? <Link to="/contact" className="font-semibold text-amber-700 underline underline-offset-2 hover:text-amber-800">Get in touch</Link>.
       </p>
     </div>
   )
