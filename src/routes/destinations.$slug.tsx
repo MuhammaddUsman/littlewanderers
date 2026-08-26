@@ -16,6 +16,7 @@ import { allPosts } from 'content-collections'
 import { AdSlot } from '@/components/AdSlot'
 import { DestinationCard } from '@/components/DestinationCard'
 import { SITE_URL } from '@/lib/site'
+import { AUTHOR_NAME } from '@/lib/author'
 
 export const Route = createFileRoute('/destinations/$slug')({
   loader: async ({ params }) => {
@@ -61,8 +62,8 @@ export const Route = createFileRoute('/destinations/$slug')({
                 datePublished: loaderData.post.date,
                 dateModified: loaderData.post.date,
                 author: {
-                  '@type': 'Organization',
-                  name: 'Little Wanderers Editorial Team',
+                  '@type': 'Person',
+                  name: AUTHOR_NAME,
                 },
                 publisher: {
                   '@type': 'Organization',
@@ -110,7 +111,14 @@ function RouteComponent() {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 lg:grid-cols-[1fr_280px]">
         <div className="min-w-0">
           <p className="text-sm text-stone-500">
-            Written by the Little Wanderers Editorial Team ·{' '}
+            Written by{' '}
+            <Link
+              to="/about"
+              className="font-semibold text-stone-700 underline underline-offset-2 hover:text-amber-700"
+            >
+              {AUTHOR_NAME}
+            </Link>{' '}
+            ·{' '}
             <time dateTime={post.date}>
               Last updated{' '}
               {new Date(post.date).toLocaleDateString('en-US', {
