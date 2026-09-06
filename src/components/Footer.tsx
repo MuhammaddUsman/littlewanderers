@@ -1,10 +1,14 @@
 import { Link } from '@tanstack/react-router'
 
+import { NewsletterSignup } from '@/components/NewsletterSignup'
+
 export function Footer() {
   return (
     <footer className="border-t border-stone-200 bg-stone-900 text-stone-300">
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <NewsletterSignup />
+
+        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <p className="font-serif text-xl font-bold text-white">Little Wanderers</p>
             <p className="mt-3 text-sm leading-relaxed text-stone-400">
