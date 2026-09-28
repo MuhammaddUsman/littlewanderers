@@ -1,6 +1,16 @@
 [build]
   command = "vite build"
   publish = "dist/client"
+
+[build.environment]
+  # jsdom (via isomorphic-dompurify) requires @exodus/bytes, an ESM-only
+  # package, from a CommonJS file. That only works on Node 20.19+/22.12+,
+  # which support require(esm) unflagged. Without this pin, an existing
+  # site falls back to an older default Node version and crashes with
+  # ERR_REQUIRE_ESM. This also sets the Netlify Functions runtime, since
+  # it inherits the build's Node version.
+  NODE_VERSION = "22.12.0"
+
 [dev]
   command = "npm run dev"
   targetPort = 3000
